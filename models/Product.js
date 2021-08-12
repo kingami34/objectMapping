@@ -1,5 +1,5 @@
 // import important parts of sequelize library
-const { Model, DataTypes, DECIMAL, NUMBER } = require('sequelize');
+const { Model, DataTypes } = require('sequelize');
 // import our database connection from config.js
 const sequelize = require('../config/connection');
 
@@ -8,44 +8,52 @@ class Product extends Model {}
 
 // set up fields and rules for Product model
 Product.init(
-  {
-    // define columns
-    id:{
-      type:DataTypes.INTEGER,
-      allowNull: false,
-      primaryKey: true,
-      autoIncrement: true,
+    {
+        // define an id column
+        id: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            primaryKey: true,
+            autoIncrement: true
+        },
+        // define product_name column
+        product_name: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        // define price column
+        price: {
+            type: DataTypes.DECIMAL(10,2),
+            allowNull: false,
+            validate: {
+                isDecimal: true
+            }
+        },
+        // define stock column
+        stock: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            defaultValue: 10,
+            validate: {
+                isNumeric: true
+            }
+        },
+        // define category_id column
+        category_id: {
+            type: DataTypes.INTEGER,
+            references: {
+                model: "category",
+                key: "id"
+            }
+        }
     },
-    product_name:{
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    price:{
-      type: DataTypes.DECIMAL(10,2),
-      allowNull: false,
-      validate: DECIMAL, presence: true,
-    },
-    stock:{
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: (10),
-      validate: NUMBER, presence: true,
-    },
-    category:{
-      type: DataTypes.INTEGER,
-      Reference:{
-        category: 'id',
-      }
-    },
-
-  },
-  {
-    sequelize,
-    timestamps: false,
-    freezeTableName: true,
-    underscored: true,
-    modelName: 'product',
-  }
+    {
+        sequelize,
+        timestamps: false,
+        freezeTableName: true,
+        underscored: true,
+        modelName: 'product',
+    }
 );
 
 module.exports = Product;
