@@ -44,15 +44,7 @@ router.get('/:id', async(req, res) => {
 
 // create new product
 router.post('/', async(req, res) => {
-  try {
-    const ProductData = await Product.create({
-      reader_id: req.body.reader_id,
-    });
-    res.status(200).json(ProductData);
-  } catch (err) {
-    res.status(400).json(err);
-  }
-});
+
   //  req.body should look like this...
     // {
     //   product_name: "Basketball",
@@ -81,7 +73,7 @@ router.post('/', async(req, res) => {
     .catch((err) => {
       console.log(err);
       res.status(400).json(err);
-    
+    }) 
 });
 
 // update product
