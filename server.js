@@ -17,7 +17,7 @@ app.get("/api/tag ", (req, res) => {
 })
 
 // sync sequelize models to the database, then turn on the server
-sequelize.sync({ force: false }).then(() => {
+sequelize.sync({ force: true }).then(() => {
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}!`);
 })
